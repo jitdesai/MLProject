@@ -9,6 +9,7 @@ import numpy as np
 import dill
 from sklearn.metrics import r2_score
 from sklearn.model_selection import GridSearchCV
+import pickle
 
 def save_object(file_path, obj):
     """Saves a Python object to a file using pickle.
@@ -57,4 +58,13 @@ def evaluate_models(X_train, y_train, X_test, y_test, models, param):
         return report
     except Exception as e:
         logging.info("Exception occurred while evaluating models")
+        raise CustomException(e, sys.exc_info())
+    
+
+def load_object(file_path):
+    try:
+        with open(file_path, "rb") as file_obj:
+            return pickle.load(file_obj)
+
+    except Exception as e:
         raise CustomException(e, sys.exc_info())
